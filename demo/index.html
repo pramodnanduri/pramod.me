@@ -1,0 +1,65 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+<script>
+  // hljs.initHighlightingOnLoad();
+</script>
+
+<body>
+  <div id="app">
+    <pre class="prettyprint">
+      <code>
+{{ info }}
+      </code>
+    </pre>
+  </div>
+</body>
+
+<script>
+  var vue = new Vue({
+    el: '#app',
+    data() {
+      return {
+        info: null
+      }
+    },
+    mounted() {
+      axios
+        .get('http://pramod.me/demo/demo.java')
+        //.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+        .then(response => (this.info = response.data))
+        .then(response => inject(this, response.data))
+        // .then(function(response) {
+        //   // handle success
+        //   (this.info = response.data)
+        //   console.log(response);
+        // })
+      //.then(hljs.initHighlighting())
+      // .then(function(response) {
+      //   this.info = response.data;
+      //   //hljs.initHighlighting()
+      // })
+    }
+  })
+
+  function inject(vue, data) {
+    //vue.info = data;
+    hljs.initHighlighting();
+  }
+
+  $.urlParam = function(name){
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results==null){
+         return null;
+      }
+      else{
+         return decodeURI(results[1]) || 0;
+      }
+  }
+
+  var name = $.urlParam("q");
+  console.log(name);
+</script>
